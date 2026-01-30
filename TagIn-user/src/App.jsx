@@ -724,4 +724,4 @@ export default function VerifyProduct() {
       <p className="mt-4 text-white">{status}</p>
     </div>
   );
-}
+};
