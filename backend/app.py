@@ -29,6 +29,35 @@ def register_product():
         return jsonify({"message": "✅ Product registered successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+#Manufacturer dashboard routing to get all products data
+@app.route('/api/products', methods=['GET'])
+def get_all_products():
+    try:
+        products = list(products_collection.find({}, {"_id": 0}))
+        return jsonify(products), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
+#Verifying product by user (backend part)
+@app.route('/api/product/<token_id>', methods=['GET'])
+def get_product_by_token_id(token_id):
+    try:
+        product = products_collection.find_one({"tokenId": str(token_id)}, {"_id": 0})
+        if product:
+            return jsonify(product), 200
+        else:
+            return jsonify({"error": "Product not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     
+
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
